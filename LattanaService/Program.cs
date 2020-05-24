@@ -1,47 +1,21 @@
-﻿using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using System;
+using LattanaService.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Telegram.Bot;
 
 namespace LattanaService
 {
     public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
-            var services = ConfigureServices();
-
-            var serviceProvider = services.BuildServiceProvider();
+            var serviceProvider = new ServiceCollection()
+                .ConfigureServices()
+                .BuildServiceProvider();
 
             // calls the Run method in App, which is replacing Main
-            _ = serviceProvider.GetService<App>().Run().Result;
-        }
+            _ = serviceProvider.GetService<App>().Run();
 
-        private static IServiceCollection ConfigureServices()
-        {
-            IServiceCollection services = new ServiceCollection();
-
-            var config = LoadConfiguration();
-            services.AddSingleton(config);
-
-            services.AddSingleton(
-                typeof(ITelegramBotClient),
-                (serviceProvider) => new TelegramBotClient(config["botApiKey"])
-            );
-
-            // required to run the application
-            services.AddTransient<App>();
-
-            return services;
-        }
-
-        private static IConfiguration LoadConfiguration()
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
-
-            return builder.Build();
+            Console.ReadLine();
         }
     }
 }

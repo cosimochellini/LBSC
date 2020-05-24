@@ -1,25 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
-using Telegram.Bot;
+﻿using LattanaService.Services.Telegram;
 
 namespace LattanaService
 {
     public class App
     {
-        private readonly ITelegramBotClient _client;
+        private readonly MessageReceiver _messageReceiver;
 
-        public App(ITelegramBotClient client)
+        public App(MessageReceiver messageReceiver)
         {
-            _client = client;
+            _messageReceiver = messageReceiver;
         }
-        public async Task<int> Run()
-        {
-            var me = await _client.GetMeAsync();
-            Console.WriteLine(
-                $"Hello, World! I am user {me.Id} and my name is {me.FirstName}."
-            );
 
-            return 1;
-        }
+        public bool Run() => _messageReceiver.StartReceiving();
     }
 }
