@@ -6,16 +6,23 @@ namespace LattanaService
 {
     public class Program
     {
+        private static ServiceProvider ServiceProvider => new ServiceCollection()
+            .ConfigureServices()
+            .BuildServiceProvider();
+
         private static void Main()
         {
-            var serviceProvider = new ServiceCollection()
-                .ConfigureServices()
-                .BuildServiceProvider();
+            try
+            {
+                ServiceProvider.GetService<App>().Run().Wait();
 
-            // calls the Run method in App, which is replacing Main
-            _ = serviceProvider.GetService<App>().Run();
-
-            Console.ReadLine();
+                Console.WriteLine("Lattana Bot Service Core started.");
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
