@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types.InlineQueryResults;
+﻿using System;
+using Telegram.Bot.Types.InlineQueryResults;
 
 namespace LattanaService.Models
 {
@@ -10,7 +11,13 @@ namespace LattanaService.Models
 
         public static InlineQueryResultBase ToQueryResult(LocalAudio audio)
         {
-            throw new System.NotImplementedException();
+            //if (IsNativeAudio(audio.Url))
+
+            //return new InlineQueryResultVoice(Guid.NewGuid().ToString(), audio.Url, audio.Title);
+
+            return new InlineQueryResultAudio(Guid.NewGuid().ToString(), audio.Url, audio.Title);
         }
+
+        private static bool IsNativeAudio(string file) => file.EndsWith("ogg");
     }
 }

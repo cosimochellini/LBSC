@@ -2,6 +2,7 @@
 using LattanaService.Interfaces.Contracts;
 using LattanaService.Services;
 using LattanaService.Services.Factory;
+using LattanaService.Services.FileSystem;
 using LattanaService.Services.Telegram;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,9 @@ namespace LattanaService.Extensions
             services.AddSingleton<ILogger, WriteLineLogger>();
 
             services.AddSingleton<IInlineQueryHandler, InlineQueryHandler>();
-            
+
+            services.AddSingleton<AudioRepository>();
+
             // required to run the application
             services.AddTransient<App>();
 
